@@ -137,7 +137,6 @@ export default class extends PureComponent{
   render(){
     const {className,toolbar,...props} = this.props;
     const {items, value, onChange,placeholder} = this.state;
-    console.log(toolbar);
     return (
       <ReactPopup
         {...props}
