@@ -54,15 +54,19 @@ class App extends React.Component{
     });
   };
 
+  update(){
+    this.setState({
+      items: this.state.items1,
+      value:this.state.value1
+    });
+  }
+
   _click2 = e => {
     ReactPickerCtrl.hide();
   };
 
   _click3 = e => {
-    this.setState({
-      items: this.state.items1,
-      value:this.state.value1
-    });
+    this.update();
   };
 
   render(){
