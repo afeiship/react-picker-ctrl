@@ -75,9 +75,8 @@ export default class extends PureComponent{
 
   update(inProps){
     let { value, ...props} = inProps;
-    let newState = objectAssign({...this.props},this.state, inProps );
+    let newState = objectAssign({...this.props}, this.state, inProps );
     newState.value =  newState.value.slice(0);
-    this._initialValue = newState.value.slice(0);
     return new Promise((resolve)=>{
       this.setState(newState,()=>{
         resolve(newState);
@@ -87,6 +86,8 @@ export default class extends PureComponent{
 
   show(inProps){
     const { popup } = this.refs;
+    const newProps = objectAssign({...this.props}, this.state, inProps );
+    this._initialValue = newProps.value.slice(0);
     return new Promise((resolve)=>{
       this.update(inProps).then((newState)=>{
         popup.show().then(()=>{
@@ -123,8 +124,7 @@ export default class extends PureComponent{
   }
 
   componentWillReceiveProps(nextProps) {
-    debugger
-    const { items,value,placeholder } = nextProps;
+    const { items, value, placeholder } = nextProps;
     if(items !== this.state.items){
       this.setState({ items });
     }
@@ -143,6 +143,7 @@ export default class extends PureComponent{
     const { onChange } = this.state;
     this.setState({ value },()=>{
       onChange({ target: { value } });
+      this.update(this.state);
     });
   }
 

@@ -54,10 +54,8 @@ class App extends React.Component{
         const days = App.getDays( value[0], value[1] );
           const {items} = this.state;
           items[2] = NxRange.integer(1, days+1);
-          console.log(items[2].join());
-          ReactPickerCtrl.update({
-            items: items.slice(0)
-          });
+          console.log(items[2].join(),value);
+          this.setState({ items: items.slice(0), value })
       }
     });
   };
