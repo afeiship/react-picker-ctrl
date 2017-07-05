@@ -76,8 +76,8 @@ export default class extends PureComponent{
   update(inProps){
     let { value, ...props} = inProps;
     let newState = objectAssign({...this.props}, inProps );
-    newState.value =  inProps.value.slice(0);
-    this._initialValue = inProps.value.slice(0);
+    newState.value =  value.slice(0);
+    this._initialValue = value.slice(0);
     return new Promise((resolve)=>{
       this.setState(newState,()=>{
         resolve(newState);
