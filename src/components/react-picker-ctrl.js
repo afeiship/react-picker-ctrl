@@ -71,7 +71,6 @@ export default class extends PureComponent{
       onChange: noop
     };
     this._initialValue = null;
-    window.ss = this;
   }
 
   update(inProps){
