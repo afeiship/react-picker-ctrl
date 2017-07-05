@@ -7,10 +7,14 @@
 
   static propTypes = {
     className:PropTypes.string,
-    toolbar: PropTypes.object
+    toolbar: PropTypes.object,
+    items: PropTypes.array,
+    value: PropTypes.array,
   };
 
   static defaultProps = {
+    items:[],
+    value:[],
     toolbar: {
       items: ITEMS_OK_CANCEL,
       onClick:noop
@@ -32,6 +36,12 @@ class App extends React.Component{
       [1,2,3,4,5,6,7,8,9,10,11,12],
       [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
     ],
+    items1:[
+      [1990],
+      [1,2,3,4,5,6,7,8,9,10,11,12],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+    ],
+    value1: [1990,2,12],
     value: [ 1990,3,18 ]
   };
 
@@ -55,8 +65,14 @@ class App extends React.Component{
       items: this.state.items,
       value: this.state.value,
       onChange: (e)=>{
-        console.log(e);
-        this.setState({value: e.target.value})
+        // this.setState({
+        //   value: e.target.value
+        // });
+        console.log('update?');
+          this.setState({
+            items: this.state.items1,
+            value:this.state.value1
+          });
       }
     });
   };
@@ -65,11 +81,19 @@ class App extends React.Component{
     ReactPickerCtrl.hide();
   };
 
+  _click3 = e => {
+    this.setState({
+      items: this.state.items1,
+      value:this.state.value1
+    });
+  };
+
   render(){
     return (
       <div className="hello-react-picker-ctrl">
         <button onClick={this._click1}>Show Ctrl</button>
         <button onClick={this._click2}>Hide Ctrl</button>
+        <button onClick={this._click3}>Update items</button>
       </div>
     );
   }
