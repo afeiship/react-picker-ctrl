@@ -43,6 +43,10 @@ export default class extends PureComponent{
     return this._instance;
   };
 
+  static update(inProps){
+    return this._instance.component.update(inProps);
+  }
+
   static show(inProps){
     return this._instance.component.show(inProps);
   };
@@ -70,16 +74,26 @@ export default class extends PureComponent{
     window.ss = this;
   }
 
-  show(inProps){
-    const { popup } = this.refs;
+  update(inProps){
     let { value, ...props} = inProps;
     let newState = objectAssign({...this.props}, inProps );
     newState.value =  inProps.value.slice(0);
     this._initialValue = inProps.value.slice(0);
     return new Promise((resolve)=>{
       this.setState(newState,()=>{
-        popup.show().then(resolve);
+        resolve(newState);
       });
+    });
+  }
+
+  show(inProps){
+    const { popup } = this.refs;
+    return new Promise((resolve)=>{
+      this.update(inProps).then((newState)=>{
+        popup.show().then(()=>{
+          resolve(newState);
+        });
+      })
     });
   }
 

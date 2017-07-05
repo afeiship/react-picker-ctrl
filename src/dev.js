@@ -55,7 +55,7 @@ class App extends React.Component{
   };
 
   update(){
-    this.setState({
+    ReactPickerCtrl.update({
       items: this.state.items1,
       value:this.state.value1
     });
