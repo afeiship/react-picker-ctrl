@@ -1,5 +1,6 @@
 import './dev.scss';
 import ReactPickerCtrl from './main';
+import NxRange from 'next-range';
 
 /*===example start===*/
 
@@ -22,6 +23,13 @@ class App extends React.Component{
     value: [ 1990,3,18 ]
   };
 
+  static getDays(inYear, inMonth) {
+    const monthStart = new Date(inYear, inMonth - 1, 1);
+    const monthEnd = new Date(inYear, inMonth, 1);
+    return (monthEnd - monthStart) / (1000 * 60 * 60 * 24)
+  }
+
+
   constructor(props){
     super(props);
     window.demo = this;
@@ -42,13 +50,13 @@ class App extends React.Component{
       items: this.state.items,
       value: this.state.value,
       onChange: (e)=>{
-        // this.setState({
-        //   value: e.target.value
-        // });
-        console.log('update?');
-          this.setState({
-            items: this.state.items1,
-            value:this.state.value1
+        const {value} = e.target;
+        const days = App.getDays( value[0], value[1] );
+          const {items} = this.state;
+          items[2] = NxRange.integer(1, days+1);
+          console.log(items[2].join());
+          ReactPickerCtrl.update({
+            items: items.slice(0)
           });
       }
     });

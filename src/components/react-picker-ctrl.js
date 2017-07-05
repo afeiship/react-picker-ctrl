@@ -75,7 +75,7 @@ export default class extends PureComponent{
 
   update(inProps){
     let { value, ...props} = inProps;
-    let newState = objectAssign({...this.props}, inProps );
+    let newState = objectAssign({...this.props},this.state, inProps );
     newState.value =  newState.value.slice(0);
     this._initialValue = newState.value.slice(0);
     return new Promise((resolve)=>{
@@ -123,9 +123,18 @@ export default class extends PureComponent{
   }
 
   componentWillReceiveProps(nextProps) {
+    debugger
     const { items,value,placeholder } = nextProps;
-    if(items !== this.state.items || value!==this.state.value || placeholder!== this.state.placeholder){
-      this.setState({items,value,placeholder});
+    if(items !== this.state.items){
+      this.setState({ items });
+    }
+
+    if(value!==this.state.value){
+      this.setState({ value });
+    }
+
+    if( placeholder!== this.state.placeholder ){
+      this.setState({ placeholder });
     }
   }
 
