@@ -104,6 +104,13 @@ export default class extends PureComponent{
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { items,value,placeholder } = nextProps;
+    if(items !== this.state.items || value!==this.state.value || placeholder!== this.state.placeholder){
+      this.setState({items,value,placeholder});
+    }
+  }
+
   doChange(inValue){
     const value = inValue;
     const { onChange } = this.state;
