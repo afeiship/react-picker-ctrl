@@ -13,6 +13,11 @@ class App extends React.Component{
       [1,2,3,4,5,6,7,8,9,10,11,12],
       [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
     ],
+    items1:[
+      [1990],
+      [1,2,3,4,5,6,7,8,9,10,11,12],
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+    ],
     value: [ 1990,3,18 ]
   };
 
@@ -36,8 +41,9 @@ class App extends React.Component{
       items: this.state.items,
       value: this.state.value,
       onChange: (e)=>{
-        console.log(e);
-        this.setState({value: e.target.value})
+        this.setState({
+          value: e.target.value
+        });
       }
     });
   };
@@ -46,11 +52,16 @@ class App extends React.Component{
     ReactPickerCtrl.hide();
   };
 
+  _click3 = e => {
+    this.setState({items: this.state.items1})
+  };
+
   render(){
     return (
       <div className="hello-react-picker-ctrl">
         <button onClick={this._click1}>Show Ctrl</button>
         <button onClick={this._click2}>Hide Ctrl</button>
+        <button onClick={this._click3}>Update items</button>
       </div>
     );
   }

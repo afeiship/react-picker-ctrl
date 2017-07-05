@@ -15,10 +15,14 @@ export default class extends PureComponent{
   /*===properties start===*/
   static propTypes = {
     className:PropTypes.string,
-    toolbar: PropTypes.object
+    toolbar: PropTypes.object,
+    items: PropTypes.array,
+    value: PropTypes.array,
   };
 
   static defaultProps = {
+    items:[],
+    value:[],
     toolbar: {
       items: ITEMS_OK_CANCEL,
       onClick:noop
@@ -57,6 +61,7 @@ export default class extends PureComponent{
   constructor(props) {
     super(props);
     this.state = {
+      items: props.items,
       value: props.value,
       onDropClick: noop,
       onChange: noop
@@ -106,6 +111,7 @@ export default class extends PureComponent{
 
   componentWillReceiveProps(nextProps) {
     const { items,value,placeholder } = nextProps;
+    debugger
     if(items !== this.state.items || value!==this.state.value || placeholder!== this.state.placeholder){
       this.setState({items,value,placeholder});
     }
@@ -142,8 +148,8 @@ export default class extends PureComponent{
   };
 
   render(){
-    const {className,toolbar,...props} = this.props;
-    const {items, value, onChange,placeholder} = this.state;
+    const {className,toolbar,items,...props} = this.props;
+    const { value, onChange,placeholder} = this.state;
     return (
       <ReactPopup
         {...props}
@@ -156,7 +162,7 @@ export default class extends PureComponent{
             <div className="react-picker-ctrl-toolbar-inner">{this.toolbarItems}</div>
           </header>
         <ReactPickerColumns
-          items={items}
+          items={this.state.items}
           onChange={this._onChange}
           value={value} />
       </ReactPopup>
