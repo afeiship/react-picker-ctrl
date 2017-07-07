@@ -49,6 +49,15 @@ class App extends React.Component{
       placeholder:'请选择日期',
       items: this.state.items,
       value: this.state.value,
+      onShown: (e)=>{
+        console.log('shown!',e);
+      },
+      onHidden: (e)=>{
+        console.log('hidden!',e);
+      },
+      onDropClick:(e)=>{
+        console.log('drop click');
+      },
       onChange: (e)=>{
         const {value} = e.target;
         const days = App.getDays( value[0], value[1] );

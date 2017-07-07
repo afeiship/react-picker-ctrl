@@ -18,11 +18,19 @@ export default class extends PureComponent{
     toolbar: PropTypes.object,
     items: PropTypes.array,
     value: PropTypes.array,
+    onChange: PropTypes.func,
+    onDropClick: PropTypes.func,
+    onShown: PropTypes.func,
+    onHidden: PropTypes.func,
   };
 
   static defaultProps = {
     items:[],
     value:[],
+    onChange:noop,
+    onDropClick:noop,
+    onShown:noop,
+    onHidden:noop,
     toolbar: {
       items: ITEMS_OK_CANCEL,
       onClick:noop
@@ -62,48 +70,6 @@ export default class extends PureComponent{
     }
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: props.items,
-      value: props.value,
-      onDropClick: noop,
-      onChange: noop
-    };
-    this._initialValue = null;
-  }
-
-  update(inProps){
-    let { value, ...props} = inProps;
-    let newState = objectAssign({...this.props}, this.state, inProps );
-    newState.value =  newState.value.slice(0);
-    return new Promise((resolve)=>{
-      this.setState(newState,()=>{
-        resolve(newState);
-      });
-    });
-  }
-
-  show(inProps){
-    const { popup } = this.refs;
-    const newProps = objectAssign({...this.props}, this.state, inProps );
-    this._initialValue = newProps.value.slice(0);
-    return new Promise((resolve)=>{
-      this.update(inProps).then((newState)=>{
-        popup.show().then(()=>{
-          resolve(newState);
-        });
-      })
-    });
-  }
-
-  hide(){
-    const { popup } = this.refs;
-    return new Promise((resolve,reject)=>{
-      popup.hide().then(resolve);
-    });
-  }
-
   get toolbarItems(){
     const {toolbar} = this.props;
     return toolbar.items.map((item,index)=>{
@@ -115,6 +81,52 @@ export default class extends PureComponent{
           className="react-picker-ctrl-toolbar-item">{item.text}</div>
       );
     })
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: props.items,
+      value: props.value,
+      onDropClick:props.onDropClick,
+      onHidden: props.onHidden,
+      onShown: props.onShown,
+      onChange: props.onShown
+    };
+    this._initialValue = null;
+  }
+
+  update(inProps){
+    let { value, ...props} = inProps;
+    let newState = objectAssign({...this.props}, this.state, inProps );
+    newState.value =  newState.value.slice(0);
+    return new Promise((resolve)=>{
+      this.setState(newState,()=>{
+        resolve();
+      });
+    });
+  }
+
+  show(inProps){
+    const { popup } = this.refs;
+    const newProps = objectAssign({...this.props}, this.state, inProps );
+    this._initialValue = newProps.value.slice(0);
+    return new Promise((resolve)=>{
+      this.update(inProps).then((newState)=>{
+        popup.show().then(()=>{
+          resolve();
+        });
+      })
+    });
+  }
+
+  hide(){
+    const { popup } = this.refs;
+    return new Promise((resolve,reject)=>{
+      popup.hide().then(()=>{
+        resolve();
+      });
+    });
   }
 
   reset(){
@@ -163,7 +175,7 @@ export default class extends PureComponent{
   _onDropClick = e =>{
     const {onDropClick} = this.state;
     this.reset();
-    onDropClick(e);
+    onDropClick();
   };
 
   _onChange = e => {
@@ -172,12 +184,15 @@ export default class extends PureComponent{
   };
 
   render(){
-    const {className,toolbar,items,...props} = this.props;
-    const { value, onChange,placeholder} = this.state;
+    const { className, toolbar, onDropClick, onChange, onShown, onHidden, items,...props } = this.props;
+    const { value, placeholder } = this.state;
+
     return (
       <ReactPopup
         {...props}
         ref='popup'
+        onShown={this.state.onShown}
+        onHidden={this.state.onHidden}
         backdropStyle={{position:'fixed',opacity:'0.01'}}
         onDropClick={this._onDropClick}
         className={classNames('react-picker-ctrl',className)}>
