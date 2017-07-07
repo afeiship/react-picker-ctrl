@@ -45,7 +45,6 @@ class App extends React.Component{
 
   _click1 = e =>{
     ReactPickerCtrl.show({
-      toolbar: null,
       placeholder:'请选择日期',
       items: this.state.items,
       value: this.state.value,
@@ -61,10 +60,10 @@ class App extends React.Component{
       onChange: (e)=>{
         const {value} = e.target;
         const days = App.getDays( value[0], value[1] );
-          const {items} = this.state;
-          items[2] = NxRange.integer(1, days+1);
-          console.log(items[2].join(),value);
-          this.setState({ items: items.slice(0), value })
+        const {items} = this.state;
+        items[2] = NxRange.integer(1, days+1);
+        console.log(items[2].join(),value);
+        this.setState({ items: items.slice(0), value });
       }
     });
   };

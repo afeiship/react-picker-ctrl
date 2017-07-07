@@ -91,7 +91,7 @@ export default class extends PureComponent{
       onDropClick:props.onDropClick,
       onHidden: props.onHidden,
       onShown: props.onShown,
-      onChange: props.onShown
+      onChange: props.onChange
     };
     this._initialValue = null;
   }
@@ -137,15 +137,15 @@ export default class extends PureComponent{
 
   componentWillReceiveProps(nextProps) {
     const { items, value, placeholder } = nextProps;
-    if(items !== this.state.items){
+    if( items !== this.state.items ){
       this.setState({ items });
     }
 
-    if(value!==this.state.value){
+    if( value !== this.state.value ){
       this.setState({ value });
     }
 
-    if( placeholder!== this.state.placeholder ){
+    if( placeholder !== this.state.placeholder ){
       this.setState({ placeholder });
     }
   }
@@ -153,7 +153,7 @@ export default class extends PureComponent{
   doChange(inValue){
     const value = inValue;
     const { onChange } = this.state;
-    this.setState({ value },()=>{
+    this.setState({ value },() => {
       onChange({ target: { value } });
       this.update(this.state);
     });
@@ -172,7 +172,7 @@ export default class extends PureComponent{
     this.hide();
   };
 
-  _onDropClick = e =>{
+  _onDropClick = e => {
     const {onDropClick} = this.state;
     this.reset();
     onDropClick();
