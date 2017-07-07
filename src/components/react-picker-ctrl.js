@@ -148,9 +148,10 @@ export default class extends PureComponent{
   }
 
   _onToolbarClick = e => {
+    const { value } = this.state;
     switch(e.action){
       case 'ok':
-        this.setState({value: this.state.value});
+        this.doChange(value);
         break;
       case 'cancel':
         this.reset();
