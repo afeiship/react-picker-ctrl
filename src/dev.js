@@ -39,7 +39,7 @@ class App extends React.Component{
 
 
   componentWillMount() {
-    ReactPickerCtrl.createInstance();
+    window.ss = ReactPickerCtrl.createInstance();
   }
 
 
